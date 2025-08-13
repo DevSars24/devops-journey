@@ -7,8 +7,6 @@ Continuous delivery with automation, reducing manual handoffs and errors
 Faster time-to-market, better collaboration, and scalable applications 
 
 Proactive security (DevSecOps), improved quality assurance, and continuous testing from the start 
-Simplilearn.com
-Wikipedia
 
 In essence, DevOps is not just a skillset—it's a cultural transformation that makes software delivery faster, safer, and smarter.
 
@@ -29,12 +27,7 @@ I’m diving into this field because:
 
 Industry demand is surging—companies look for DevOps-skilled engineers to manage CI/CD, infrastructure, cloud deployment, monitoring, IaC, and security 
 medium.com
-arxiv.org
-+7
-YouTube
-+7
-Reddit
-+7
+
 
 Integrating AI/ML workloads with DevOps (MLOps/AIOps) is becoming the norm, requiring automation, traceability, and cross-functional collaboration 
 
