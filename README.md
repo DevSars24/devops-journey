@@ -2,7 +2,9 @@
 
 Hi there! I'm Saurabh Singh Rajput, a passionate Computer Science student at IIIT Bhagalpur and a self-taught programmer. This repository is a live journal of my **DevOps learning journey**, starting from absolute basics to advanced cloud-native tools like Docker, Kubernetes, and CI/CD pipelines.
 
-> ⚡️ I'm learning consistently. I'm building real-world skills. I'm committed.
+> ⚡️ I'm learning consistently.
+>  I'm building real-world skills.
+> I'm committed.
 
 ---
 
