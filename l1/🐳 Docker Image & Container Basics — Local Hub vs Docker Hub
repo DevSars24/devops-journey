@@ -1,0 +1,71 @@
+📄 Content for your DevOps Learning Note
+# 🐳 Docker: Local Hub, Docker Hub & Running Containers
+
+## 📍 1. Image Fetch Process: Local Hub → Docker Hub
+When you run a command like `docker run` or `docker pull`, Docker follows this sequence:
+
+1️⃣ **Check Local Hub (Local Image Cache)**  
+   - Docker first looks in your local system (local image storage) to see if the image exists.  
+   - If found ✅ → It uses that local image directly.
+
+2️⃣ **If not found in Local Hub → Go to Docker Hub**  
+   - Docker connects to **Docker Hub** (online public registry) and downloads the image.  
+   - After download, the image is stored in the **local hub** so next time it won’t download again.
+
+---
+
+## 📍 2. Important Commands
+
+### 🔹 `docker pull <image-name>`
+- **Purpose:** Only downloads the image (does not run it).
+- **Example:**  
+  ```bash
+  docker pull ubuntu:20.04
+
+
+→ Downloads the Ubuntu 20.04 image from Docker Hub to Local Hub.
+
+🔹 docker run <image-name>
+
+Purpose:
+
+Checks local hub for the image.
+If not found → pulls from Docker Hub.
+Creates and starts a container from that image.
+Example:
+docker run -it ubuntu:20.04
+
+
+→ Runs ubuntu interactively in the terminal.
+📍 3. Containers vs Images
+🖼 Image
+
+A read-only blueprint (like a recipe) used to create containers.
+
+Stored in Local Hub (on your machine) or Docker Hub (online).
+
+📦 Container
+
+A running instance of an image.
+
+Has its own filesystem, processes, and network.
+When you delete a container, the image is not deleted — you can start another container from it anytime.
+
+📍 4. Deleting Containers vs Images
+❌ Delete a container:
+docker rm <container-id>
+→ Removes only the running/stopped container.
+
+❌ Delete an image:
+docker rmi <image-id>
+
+
+→ Removes the image from local hub.
+If needed again, it will be downloaded from Docker Hub.
+
+📍 5. Quick Recap
+🏠 Local Hub: Your PC’s Docker image storage.
+☁️ Docker Hub: Online image repository.
+docker pull → Only downloads.
+docker run → Downloads (if needed) + runs.
+Images = Blueprints 📄 | Containers = Running apps 🚀
