@@ -1,7 +1,7 @@
 # 🐳 Docker CLI Commands Documentary
 
 ## 📌 1. Running Your First Docker Container
-```bash
+
 docker run hello-world
 Purpose: Checks if Docker is installed and working correctly.
 
