@@ -26,8 +26,8 @@ I'm currently following a structured DevOps course which includes:
 | Section | Status |
 |--------|--------|
 | ✅ Section 1: Introduction | Completed |
-| ✅ Section 2: Container Introduction | In Progress |
-| ⏳ Section 3: Docker Essentials | Coming Soon |
+| ✅ Section 2: Container Introduction | completed |
+| ⏳ Section 3: Docker Essentials | completed |
 | ⏳ Section 4: Docker Networking | Planned |
 | ⏳ Section 5: Docker Compose | Planned |
 | ⏳ Section 6: Docker Quiz | Planned |
