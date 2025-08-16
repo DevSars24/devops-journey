@@ -4,13 +4,21 @@ A Dockerfile is a text file that contains a set of instructions that Docker uses
 Think of it like a recipe — it tells Docker step-by-step how to set up your application environment.
 
 2. Common Dockerfile Instructions
+
 Command	Purpose
+
 FROM	Sets the base image (starting point for your image).
+
 WORKDIR	Sets the working directory inside the container.
+
 COPY	Copies files from your host machine to the container.
+
 RUN	Executes commands during image build.
+
 EXPOSE	Informs Docker which port your app will use.
+
 CMD	Specifies the default command to run when the container starts.
+
 3. Example: Vite React App Dockerfile
 # Base image (lightweight Node.js Alpine version)
 FROM node:22-alpine
