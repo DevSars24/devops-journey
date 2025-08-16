@@ -1,0 +1,70 @@
+🚀 Running Containers->
+docker run <image>
+Runs a container from the given image in the foreground (blocking your terminal).
+
+docker run -d <image>
+Runs a container in detached mode (background).
+
+docker run --name my-container <image>
+Starts a container with a custom name (instead of Docker auto-generating one).
+
+docker run -p 8080:80 <image>
+Maps host port 8080 → container port 80 (useful for web apps).
+
+docker run -v $(pwd):/app <image>
+Mounts a host directory ($(pwd) = current folder) into the container at /app. Used for sharing files.
+
+docker run -it <image> sh
+Runs container in interactive terminal mode (-it), starting a shell.
+
+📋 Checking Containers
+docker ps
+Lists running containers.
+
+docker ps -a
+Lists all containers (running + stopped + exited).
+
+📑 Logs & Attach
+docker logs <container>
+Shows logs/output of a container.
+
+docker attach <container>
+Attach your terminal to a running container’s process (exit carefully with CTRL-p CTRL-q, otherwise it stops).
+
+⏹ Stopping & Killing
+docker stop <container>
+Politely stops a container (sends SIGTERM signal, giving time to shutdown gracefully).
+
+docker kill <container>
+Immediately kills a container (sends SIGKILL, no cleanup time).
+
+docker stop $(docker ps -q)
+👉 This is the command to stop all running containers at once.
+docker ps -q prints all running container IDs.
+
+$(...) substitutes them into docker stop.
+
+Example: docker stop 123abc 456def ....
+
+🗑 Removing Containers
+docker rm <container>
+Removes a stopped container.
+
+docker rm -f <container>
+Force removes a container (even if running).
+
+docker container prune->
+Removes all stopped containers.
+
+📂 Copy Files
+docker cp <container>:/path/to/file ./
+Copies a file from inside a container to your current host directory (./).
+
+✅ Answer to your main query:
+To stop all active containers, run:
+docker stop $(docker ps -q)
+This works because:
+
+docker ps -q → returns container IDs of all running containers.
+
+docker stop <IDs> → stops each one.
