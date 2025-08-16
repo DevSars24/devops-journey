@@ -98,8 +98,6 @@ Host (4000)  --->  Container (3000)
 🎉 Final Output
 When you open http://localhost:4000, you see:
 
-css
-Copy
-Edit
+
 👋 Hello world from a Dockerised app!
 ✨ That’s it! You’ve successfully containerized a Node.js app with Docker.
