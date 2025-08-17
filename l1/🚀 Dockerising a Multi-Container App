@@ -1,0 +1,150 @@
+
+In this guide, we will build and dockerise a full-stack application with the following components:
+
+🌐 Frontend (Vite app served via Nginx)
+⚙️ Backend (Node.js + Express + PostgreSQL client)
+🗄️ Database (PostgreSQL with persistent storage)
+📦 Docker Compose (to orchestrate all services)
+```bash
+
+🏗️ Project Structure
+fullstack-docker/
+┣ 📂 backend/        # Node.js + Express backend
+┃ ┣ 📜 index.js
+┃ ┣ 📜 package.json
+┃ ┗ 📜 Dockerfile
+┣ 📂 frontend/       # Vite app served with Nginx
+┃ ┣ 📜 package.json
+┃ ┗ 📜 Dockerfile
+┣ 📜 docker-compose.yml
+┗ 📜 .env            # Environment variables
+
+⚙️ Backend (Node.js + Express + PostgreSQL)
+
+Dockerfile (backend/Dockerfile):
+
+
+FROM node:22-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["npm", "start"]
+
+
+🌐 Frontend (Vite + Nginx)
+
+We use multi-stage builds ⚡:
+Builder stage → Build the Vite app → produces dist/
+Serve stage → Serve dist/ folder via Nginx
+Dockerfile (frontend/Dockerfile):
+
+# Builder stage
+FROM node:22-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Serve stage
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+🗄️ Database (PostgreSQL with Persistent Volume)
+
+We won’t write a custom Dockerfile.
+We’ll use the official Postgres image:
+Uses credentials from .env
+Mounts a volume for persistent storage
+
+🔑 Environment Variables
+
+Create a .env file in project root:
+
+# Backend
+PORT=8000
+
+# Database
+DB_USER=postgres
+DB_PASSWORD=postgrespassword
+DB_NAME=mydb
+DB_HOST=db
+DB_PORT=5432
+
+📦 Docker Compose (docker-compose.yml)
+
+This file connects all services together:
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:
+
+🔄 Flow Diagram (Symbols & Signs)
+ 🌐 Frontend (React/Vite) ──▶  ⚙️ Backend (Node.js + Express) ──▶  🗄️ PostgreSQL
+        │                               │                               │
+        ▼                               ▼                               ▼
+    Served via                       Talks to DB                  Persistent Volume
+     🚀 Nginx                        using PG lib                   (db_data:/...)
+
+🚀 Commands to Run
+
+Build & Start Everything
+docker-compose up --build
+Check Running Containers
+
+docker ps
+
+
+Stop Everything
+docker-compose down
+Stop but Keep Volumes
+
+docker-compose down -v
+
+✅ Summary
+
+📂 Backend: Node.js containerized
+🌐 Frontend: Vite app built → served via Nginx
+🗄️ Database: Postgres with persistent volume
+
+📦 Docker Compose: Orchestrates them all
+
+🔑 .env: Central place for credentials
