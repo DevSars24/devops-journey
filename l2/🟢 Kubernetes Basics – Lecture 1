@@ -1,0 +1,95 @@
+
+1️⃣ What is Kubernetes?
+
+Kubernetes (K8s) is an open-source container orchestration platform that automates:
+
+✅ Deployment
+✅ Scaling
+✅ Management of containerized applications
+
+💡 Analogy: Kubernetes is like a traffic controller 🚦 for your containers, making sure every container goes where it’s supposed to, runs efficiently, and scales when needed.
+
+2️⃣ Core Concepts & Symbols
+Concept 🔹	Symbol/Sign	Description
+Pod	🟦	Smallest deployable unit in K8s. Can contain 1 or more containers.
+Node	🖥️	A machine (VM or physical) where Pods run.
+Cluster	🌐	Collection of Nodes managed by K8s.
+Deployment	🚀	Ensures desired number of Pods are running.
+Service	🔗	Exposes Pods internally/externally and load balances traffic.
+Namespace	🗂️	Virtual partition of cluster resources.
+ConfigMap & Secret	⚙️🔒	Store configuration & sensitive info for Pods.
+Volume	📦	Persistent storage for Pods.
+3️⃣ Kubernetes Architecture
+🏗️ Components
+
+1. Control Plane (Master Node) 🛠️
+
+API Server (🖥️➡️📦) → Accepts user commands
+
+Scheduler (⏱️) → Assigns Pods to Nodes
+
+Controller Manager (🤖) → Maintains desired state
+
+etcd (💾) → Cluster state & config database
+
+2. Worker Node 🖥️
+
+Kubelet (👷) → Ensures Pods run correctly
+
+Kube-Proxy (🌐) → Manages networking & load balancing
+
+Container Runtime (🐳) → Runs containers (Docker, containerd)
+
+Diagram (Simple Visual)
+
+            Control Plane 🛠️
+          ┌───────────────────┐
+          │   API Server 🖥️    │
+          │   Scheduler ⏱️     │
+          │ Controller 🤖     │
+          │ etcd 💾           │
+          └───────────────────┘
+                    │
+          ┌─────────┴─────────┐
+          Worker Nodes 🖥️🖥️🖥️
+          ┌───────────────┐
+          │ Kubelet 👷    │
+          │ Kube-Proxy 🌐 │
+          │ Container 🐳  │
+          └───────────────┘
+
+4️⃣ Key Features
+
+✅ Self-healing – Automatically replaces failed containers
+✅ Scaling – Pods can scale up/down automatically
+✅ Load Balancing – Traffic distributed across Pods
+✅ Automated Rollouts & Rollbacks – Smooth updates of applications
+✅ Secret & Config Management – Keeps sensitive data safe
+
+5️⃣ Kubernetes Objects Lifecycle
+
+Flow:
+
+User ➡️ API Server ➡️ Scheduler ➡️ Node ➡️ Pod
+         ↑                              ↓
+   Desired State                Actual State
+
+
+💡 K8s continuously reconciles Actual State with Desired State.
+
+6️⃣ Commands to Remember
+Task	Command
+Show cluster info	kubectl cluster-info
+Get nodes	kubectl get nodes
+Get pods	kubectl get pods
+Describe pod	kubectl describe pod <pod-name>
+Apply config	kubectl apply -f <file.yaml>
+🎯 Summary
+
+Kubernetes orchestrates containers efficiently.
+
+Core objects: Pod, Node, Deployment, Service
+
+Control plane + Worker nodes = Cluster
+
+K8s is declarative: you tell it the desired state, and it maintains it.
