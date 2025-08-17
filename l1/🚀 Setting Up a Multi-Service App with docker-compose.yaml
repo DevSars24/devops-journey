@@ -1,0 +1,182 @@
+📂 Project Structure
+
+Here’s how your project directory looks (example):
+''' bash
+my-multiservice-app/
+┣ 📂 frontend/       # React/Vite app (client)
+┣ 📂 backend/        # Node/Express API (server)
+┣ 📂 database/       # (Optional: configs like init.sql)
+┣ 📜 docker-compose.yaml
+┣ 📜 .env
+
+
+👉 This structure is important because each service (frontend, backend, database) is isolated but can talk to each other via Docker networks.
+
+🧩 What is Docker Compose?
+
+Instead of running multiple docker run ... commands manually, we can define all services in one file → docker-compose.yaml.
+This file acts like a blueprint for your entire application stack.
+You run docker compose up → and all services start together.
+⚙️ The Final docker-compose.yaml
+
+Here’s the corrected version we discussed:
+
+version: "3.8"
+
+services:
+  frontend:
+    build: ./frontend
+    ports: 
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - my-custom-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5000"
+    environment:
+      DB_HOST: database
+      DB_USER: postgres
+      DB_PASS: password
+      DB_NAME: postgres
+    depends_on: 
+      - database
+    networks:
+      - my-custom-network
+
+  database:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - my-custom-network
+
+volumes:
+  pgdata:
+
+networks:
+  my-custom-network:
+    driver: bridge
+
+🔍 Explaining Each Section
+🏷️ version: "3.8"
+
+Defines Docker Compose syntax version.
+
+3.8 is stable and widely supported.
+
+⚡ services:
+
+Each service = one container.
+
+Here we have 3 services:
+
+frontend (React/Vite)
+
+backend (Node.js/Express)
+
+database (Postgres)
+
+🎨 frontend Service
+frontend:
+  build: ./frontend
+  ports: 
+    - "3000:80"
+  depends_on:
+    - backend
+  networks:
+    - my-custom-network
+
+
+build: ./frontend → Looks for a Dockerfile inside frontend/ folder.
+
+ports: "3000:80" → Maps local http://localhost:3000 → container’s port 80.
+
+depends_on → Starts backend first before frontend.
+
+networks → Connected to our custom network.
+
+⚙️ backend Service
+backend:
+  build: ./backend
+  ports:
+    - "5001:5000"
+  environment:
+    DB_HOST: database
+    DB_USER: postgres
+    DB_PASS: password
+    DB_NAME: postgres
+  depends_on: 
+    - database
+  networks:
+    - my-custom-network
+
+
+build: ./backend → Dockerfile in backend/ builds Node/Express server.
+
+ports: "5001:5000" → Localhost 5001 → Container’s internal API port 5000.
+
+environment: → Pass DB configs to backend (it will use these in code).
+
+depends_on: database → Makes sure Postgres starts before backend.
+
+🛢️ database Service
+database:
+  image: postgres:16-alpine
+  restart: always
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: password
+    POSTGRES_DB: postgres
+  volumes:
+    - pgdata:/var/lib/postgresql/data
+  networks:
+    - my-custom-network
+
+
+image: postgres:16-alpine → Uses lightweight Postgres DB image.
+restart: always → Ensures DB container restarts if it crashes.
+environment: → Creates DB with username, password, and database name.
+volumes: → Stores DB data in pgdata → so data isn’t lost when container restarts.
+
+networks: → Part of our app network.
+
+💾 volumes
+volumes:
+  pgdata:
+
+Named volume → persists DB data outside container.
+
+🌐 networks
+networks:
+  my-custom-network:
+    driver: bridge
+
+
+Custom bridge network → allows containers to talk to each other by name (database, backend, etc.).
+
+⚡ How Things Work Together
+
+Database (Postgres) starts first → provides persistent DB.
+Backend (Node/Express) connects to Postgres using env vars (DB_HOST=database).
+Frontend (React/Vite) talks to backend API (http://backend:5000).
+All containers talk internally over my-custom-network.
+
+▶️ Run the Whole Stack
+docker compose up --build
+
+--build ensures changes in Dockerfiles are applied.
+
+Now:
+Frontend → http://localhost:3000
+Backend API → http://localhost:5001
+
+Database runs internally on Postgres default port.
