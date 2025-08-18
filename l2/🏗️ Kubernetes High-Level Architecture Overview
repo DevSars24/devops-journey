@@ -1,0 +1,160 @@
+Understanding Kubernetes architecture is crucial for debugging, troubleshooting, and scaling applications.
+
+When there’s an issue (e.g., pod not running, bottlenecks, failed scheduling), knowing which component to check saves time and effort.
+
+📌 1. Basic Concept: Nodes
+
+A Node is simply a virtual machine (or physical machine) where workloads run.
+
+Two types of nodes exist:
+
+Node Type	Role
+Control Plane (Master Node)	Manages the cluster (decision-making, scheduling, monitoring).
+Worker Node	Runs the actual workloads (pods, containers).
+
+
+🧭 2. Control Plane / Master Node
+
+The Control Plane is the brain 🧠 of the cluster, responsible for what to do, how to do it, and who does it.
+It contains multiple administrative components.
+
+🔹 Components of Control Plane
+
+API Server (Brain + Entry Point)
+
+Handles all external/internal API requests (via kubectl, UI, REST clients).
+
+Performs authentication & authorization.
+
+Forwards requests to other components.
+
+The only communication gateway — other components never talk directly.
+
+Scheduler (Kube-Scheduler)
+
+Watches for new pods waiting to be scheduled.
+
+Decides which node a pod should run on (based on resources, policies).
+
+Controller Manager
+
+Runs multiple controllers that ensure the cluster state matches the desired state.
+
+Examples:
+
+Node Controller → ensures nodes are healthy.
+
+Deployment Controller → maintains correct number of pods.
+
+Namespace Controller → manages namespace health.
+
+Helps with self-healing & reconciliation.
+
+etcd (Cluster Database)
+
+A key-value store for all cluster data.
+
+Stores:
+
+Current cluster state
+
+Pod status (running/stopped)
+
+Configurations
+
+Logs of all API calls
+
+API Server always reads/writes to etcd.
+
+Cloud Controller Manager (Optional)
+
+Present in cloud-managed K8s services (EKS, GKE, AKS).
+
+Talks to cloud provider APIs (e.g., to create Load Balancers, Persistent Volumes).
+
+⚙️ 3. Worker Nodes
+
+Worker Nodes are where containers actually run.
+Each worker node has key components to manage pods.
+
+🔹 Components of Worker Node
+
+Kubelet (Node Agent)
+Runs on every node.
+Ensures pods are healthy and running.
+
+Talks to API Server → executes instructions (start/stop pod).
+
+Container Runtime Interface (CRI)
+Manages container lifecycle (start/stop/restart containers).
+
+Examples:
+
+containerd (default since K8s v1.24)
+
+CRI-O
+
+(Old: Docker runtime – now deprecated 🚫)
+
+Kube-Proxy (Networking)
+
+Maintains network rules for pods.
+
+Enables pod-to-pod communication (within same node + across nodes).
+
+Also handles external-to-cluster communication.
+
+🖼️ 4. Visualizing the Architecture
++--------------------------------------------------+
+|                Control Plane Node                 |
+|                                                   |
+|  [ API Server ]  <->  [ etcd (DB) ]               |
+|       |                                           |
+|       +-> [ Scheduler ]                           |
+|       +-> [ Controller Manager ]                  |
+|       +-> [ Cloud Controller Manager (optional) ] |
++--------------------------------------------------+
+
+                ⇅ Communication via API Server
+
++-------------------+    +-------------------+
+|   Worker Node 1   |    |   Worker Node 2   |
+|                   |    |                   |
+| [ Kubelet ]       |    | [ Kubelet ]       |
+| [ Kube-Proxy ]    |    | [ Kube-Proxy ]    |
+| [ containerd/CRI] |    | [ containerd/CRI] |
+|      |            |    |      |            |
+|   [ Pods ]        |    |   [ Pods ]        |
++-------------------+    +-------------------+
+
+🛠️ 5. Key Insights for Troubleshooting
+
+kubectl not working? → Check API Server
+Pods not scheduled? → Check Scheduler
+Pods unhealthy? → Check Kubelet / CRI
+Cluster state mismatch? → Check Controller Manager
+Networking issues? → Check Kube-Proxy
+
+Cloud integration failing? → Check Cloud Controller Manager
+
+✨ 6. Summary
+
+Control Plane (Master Node) → Decision making 🧠
+Worker Nodes → Do the actual work 💪
+API Server → Entry point to everything 🚪
+etcd → Stores cluster state 📦
+Scheduler → Assigns pods to nodes 🎯
+Controllers → Keep things running ✅
+Kubelet → Node agent ensuring pod health 🩺
+CRI → Runs containers ⚡
+
+Kube-Proxy → Handles networking 🌐
+
+📘 This completes your Part 3 – Kubernetes High-Level Architecture.
+Earlier we did:
+
+Why Kubernetes
+
+Pods
+
+High-Level Architecture (this one)
