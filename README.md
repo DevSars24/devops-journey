@@ -28,10 +28,10 @@ I'm currently following a structured DevOps course which includes:
 | ✅ Section 1: Introduction | Completed |
 | ✅ Section 2: Container Introduction | completed |
 | ⏳ Section 3: Docker Essentials | completed |
-| ⏳ Section 4: Docker Networking | Planned |
-| ⏳ Section 5: Docker Compose | Planned |
+| ⏳ Section 4: Docker Networking | completed |
+| ⏳ Section 5: Docker Compose | completed |
 | ⏳ Section 6: Docker Quiz | Planned |
-| ⏳ Section 7: Intro to Kubernetes | Planned |
+| ⏳ Section 7: Intro to Kubernetes | completed |
 | ⏳ Section 8: Kubernetes for Devs | Planned |
 | ⏳ Section 9: Kubernetes Storage | Planned |
 | ⏳ Section 10: GKE - Google Kubernetes | Planned |
