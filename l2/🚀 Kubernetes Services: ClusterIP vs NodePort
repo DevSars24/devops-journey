@@ -1,0 +1,107 @@
+Kubernetes Services are abstractions that expose applications running on a set of Pods.
+
+In this guide, we’ll explore:
+
+📌 ClusterIP (default service type)
+📌 NodePort (external access via a node’s IP)
+
+📊 Differences between them
+📝 Examples (imperative & declarative approaches)
+
+🔹 What is a Service in Kubernetes?
+
+A Service provides stable networking to Pods. Since Pods are ephemeral, Services ensure:
+
+🔄 Load balancing across replicas
+🆔 Stable IP/Port mapping
+🔗 Internal & external communication
+
+🔹 Service Types
+
+Service Type	🌍 Scope	🔑 Use Case
+
+ClusterIP (default)	Internal (inside cluster only)	Microservice-to-microservice communication
+NodePort	External (via <NodeIP>:<NodePort>)	Access applications from outside the cluster
+LoadBalancer	Cloud Provider external LB	Managed cloud environments (AWS, GCP, Azure)
+ExternalName	DNS alias	Redirects to external services
+
+🔹 ClusterIP Example
+YAML Definition
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-clusterip-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+✅ This Service exposes nginx Pods only within the cluster.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Visual Representation
+
+   +--------+       ClusterIP Service        +------+
+   | Client |  -->  (10.96.0.1:80)   -->     | Pod1 |
+   | inside |                               +------+
+   | cluster|                               | Pod2 |
+   +--------+                               +------+
+🔹 NodePort Example
+YAML Definition
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-nodeport-service
+spec:
+  selector:
+    app: nginx
+  type: NodePort
+  ports:
+    - port: 80        # Service port
+      targetPort: 80  # Pod port
+      nodePort: 30080 # External port on Node
+✅ This Service exposes Pods externally at:
+
+
+http://<NodeIP>:30080
+Visual Representation
+pgsql
+
+   +----------+       NodePort Service       +------+
+   | Browser  | -->  NodeIP:30080   -->      | Pod1 |
+   | Outside  |                             +------+
+   | Cluster  |                             | Pod2 |
+   +----------+                             +------+
+
+🔹 Key Differences Between ClusterIP & NodePort
+
+Feature	ClusterIP 🌐 (Default)	NodePort 🌍 (External)
+Accessibility	Internal only	External & Internal
+Port Range	Cluster-assigned	30000–32767
+Use Case	Service-to-service	External user access
+Default Type?	✅ Yes	❌ No (must specify)
+
+🔹 Commands Cheat Sheet
+
+# List Services
+kubectl get svc
+
+# Describe a Service
+kubectl describe svc <service-name>
+
+# Check Endpoints
+kubectl get endpoints
+
+# Expose Deployment as NodePort
+kubectl expose deployment nginx --port=80 --type=NodePort
+
+
+📊 Summary
+ClusterIP → Default, internal-only communication.
+NodePort → External access using <NodeIP>:<NodePort>.
+
+✅ Use ClusterIP for microservices inside the cluster.
+🌍 Use NodePort when you need to expose your app outside, especially in minikube or bare-metal clusters.
