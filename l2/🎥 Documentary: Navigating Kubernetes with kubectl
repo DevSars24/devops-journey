@@ -1,4 +1,6 @@
 📘 Kubernetes kubectl Commands – A Quick Reference Documentary
+
+
 🎥 Lecture Recap: Walkthrough of Useful kubectl Commands
 
 Welcome back! In this session, we explore one of the most practical aspects of Kubernetes – mastering kubectl commands. While we’ve used kubectl for deployments, services, and pods before, this lecture focuses on collecting everything in one place and making your workflow faster, cleaner, and more efficient.
@@ -6,25 +8,23 @@ Welcome back! In this session, we explore one of the most practical aspects of K
 🌐 The Official Kubernetes Documentation
 
 The best place to learn and verify kubectl commands is the official documentation:
+
 👉 Kubernetes.io Documentation
 
 Here you will find:
 
 Concepts → Learn the theory behind Kubernetes objects (Pods, Deployments, Services, etc.)
-
 Tasks → Step-by-step guides for performing administrative and installation tasks
-
 Tutorials → Hands-on lessons for deeper learning
-
 Reference Guides → Detailed command explanations and YAML samples
 
 📌 Pro Tip: Bookmark the kubectl Cheat Sheet page:
+
 👉 kubectl Quick Reference
 
 This acts as your all-in-one command reference with examples and YAML templates.
 
 ⌨️ Speeding Up Your Kubernetes Workflow
-
 Typing kubectl hundreds of times can be tiring. Let’s make our terminal smarter.
 
 1️⃣ Enable Bash Auto-Completion
@@ -32,8 +32,8 @@ Typing kubectl hundreds of times can be tiring. Let’s make our terminal smarte
 Instead of typing full commands, use TAB completion:
 
 # Install bash completion (Ubuntu/Debian)
-sudo apt-get install bash-completion
 
+sudo apt-get install bash-completion
 # Enable kubectl auto-completion
 source <(kubectl completion bash)
 
