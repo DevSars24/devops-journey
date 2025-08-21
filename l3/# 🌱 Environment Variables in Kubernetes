@@ -1,0 +1,88 @@
+Hello everyone and welcome back 👋  
+
+In this section, we’ll cover the **basics of Environment Variables in Kubernetes** — what they are, how they work, and why they are important for applications running inside containers & pods.
+
+---
+
+## 📌 What are Environment Variables?
+Environment variables are **key-value pairs** used to inject configuration values into:
+- ✅ Your **application code**
+- ✅ The **container** running the code
+- ✅ Ultimately the **pod** in Kubernetes  
+
+They help in **decoupling configuration** from application code.
+---
+
+## ⚙️ How They Work
+Here’s the flow of environment variables inside Kubernetes:
+
+```mermaid
+flowchart TD
+    A[📄 Kubernetes Manifest] -->|Inject key=value| B[⚙️ Environment Variable]
+    B --> C[💻 Application Code]
+    B --> D[📦 Container]
+    D --> E[☸️ Pod in Kubernetes]
+
+
+You define variables in your Kubernetes manifest (YAML file).
+
+These get injected into the application code as well as the container.
+
+You can view them inside a container using:
+
+🗂️ Example
+
+Let’s say you want to set a name and role for your app:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-demo
+spec:
+  containers:
+    - name: demo-container
+      image: nginx
+      env:
+        - name: APP_NAME
+          value: "KubeApp"
+        - name: APP_ROLE
+          value: "Backend"
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+🔍 Inside the Container
+$ kubectl exec -it env-demo -- sh
+$ env | grep APP
+APP_NAME=KubeApp
+APP_ROLE=Backend
+
+📊 Key Points (Cheat Sheet)
+
+Concept	Description	Example
+
+Definition	Key-value pairs passed to code & container	ENV=production
+Source	Kubernetes manifest (env: section)	name: APP_NAME, value: "KubeApp"
+Usage	Inject into application & container	printenv inside container
+Benefit	Decouple config from code	Change config without redeploying
+
+🎯 Why Use Environment Variables?
+🔑 Securely pass configurations without hardcoding
+🛠️ Easily switch between dev, staging, production environments
+🔄 Reuse manifests with different values
+👩‍💻 Debug containers by checking variables with env
+
+✅ Summary
+
+Environment variables = config values in key=value pairs
+Injected into app code and containers from Kubernetes manifests
+Accessible inside containers using env
+Helps in making applications configurable and portable
+
+🚀 Next up: We’ll see a demo where environment variables are injected into an app in Kubernetes!
+---
+
+👉 This file gives:
+- A **flowchart** to show the journey from manifest → env → app/container/pod  
+- An **example YAML manifest**  
+- A **table for quick reference**  
+- A **summary** at the end  
+
+Would you like me to **continue this same style** for the other topics (ConfigMaps, Secrets, Scaling, Resou
