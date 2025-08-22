@@ -32,11 +32,8 @@ I'm currently following a structured DevOps course which includes:
 | ⏳ Section 5: Docker Compose | completed |
 | ⏳ Section 6: Docker Quiz | Planned |
 | ⏳ Section 7: Intro to Kubernetes | completed |
-| ⏳ Section 8: Kubernetes for Devs | Planned |
-| ⏳ Section 9: Kubernetes Storage | Planned |
-| ⏳ Section 10: GKE - Google Kubernetes | Planned |
-| ⏳ Section 11: AKS - Azure Kubernetes | Planned |
-| ⏳ Section 12: EKS - Amazon Kubernetes | Planned |
+| ⏳ Section 8: Kubernetes for Devs | completed |
+
 
 > 💡 I'm updating this repo daily with notes, hands-on commands, and practice exercises.
 
